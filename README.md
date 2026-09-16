@@ -8,7 +8,7 @@
 Code based on prototype implementation by Julian Niederer.
 
 Literature:  
-J. Niederer, A. Sommer, H. G. Bock, E. Kostina, C. Fleck, A. Flexeder, M. Bitzer, C. Bertsch:
+J. Niederer, I. Schrot, A. Sommer, H. G. Bock, E. Kostina, C. Fleck, A. Flexeder, M. Bitzer, C. Bertsch:
 "A local monotonicity-preserving C2-smooth interpolation method for multivariate gridded data with applications in the automotive industry" (2026)
 in review
 
