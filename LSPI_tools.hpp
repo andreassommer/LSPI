@@ -49,8 +49,6 @@
 namespace LSPI {
 
 
-const char* const DEFAULT_NUMBER_FORMAT = " %12.6g ";   // keep spaces! otherwise: -4.111-3.222 may happen!
-const char*       NUMBERFORMAT = DEFAULT_NUMBER_FORMAT; // NUMBERFORMAT can point to different formats
 
 
 /**
@@ -248,25 +246,28 @@ int find_index_from(const T& p, const T* grid, int gridsize, int startidx)
 // ********* DEBUG HELPERS ******************************************************************
 #ifdef LSPI_INCLUDE_DEBUG_HELPERS
 
+constexpr const char* NUMBERFORMAT = " %12.6g ";    // keep spaces! otherwise: -4.111-3.222 may happen!
+
 template<typename T>
 void displayVec(const T* vec, int vecsize, const char* name = "vec") {
    const char* fmt = LSPI::NUMBERFORMAT;
    if (name)  printf("%s = ", name);
    printf("[ ");
    for (int i = 0; i < vecsize; ++i) {
-      printf(fmt, vec[i]);
+      printf(fmt, (double) vec[i]);
    }
    printf(" ];\n");
 }
 
 template<typename T>
+inline
 void displayMat(const T* matrix, int nrows, int ncols, const char* name = "vec") {
    const char* fmt = LSPI::NUMBERFORMAT;
    if (name)  printf("%s = ", name);
    printf("[ \n");
    for (int row = 0; row < nrows; ++row) {
       for (int col = 0; col < ncols; ++col) {
-         printf(fmt, LSPI_MATRIX_ELEMENT(matrix, row, col, ncols));
+         printf(fmt, (double) LSPI_MATRIX_ELEMENT(matrix, row, col, ncols));
       }
       if (row < nrows-1)  printf(" ;\n");
    }
@@ -274,15 +275,17 @@ void displayMat(const T* matrix, int nrows, int ncols, const char* name = "vec")
 }
 
 template<typename T>
+inline
 void displayVar(const T& var, const char* name = "var", const char* separator = "\n") {
    const char* fmt = LSPI::NUMBERFORMAT;
    if (name)
       printf("%s = ", name);
    printf(fmt, (double) var);
    if (separator)
-      printf(separator);
+      printf("%s", separator);
 }
 
+inline
 int displayFmt(const char* fmt, ...){
     va_list args;
     va_start(args, fmt);
@@ -291,6 +294,7 @@ int displayFmt(const char* fmt, ...){
     return rc;
 }
 
+inline
 int displayText(const char* fmt, ...){
     printf("%% ");
     va_list args;

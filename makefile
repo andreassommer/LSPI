@@ -1,5 +1,6 @@
 CXX := g++
-CXXFLAGS := -std=c++11 -Wall -O2 -I.
+CXXFLAGS := -std=c++11 -Wall -O3 -I.
+# CXXFLAGS += -flto -Wshadow -Wconversion -Wsign-conversion
 
 TARGET_1D = test_1D_local_interpolation
 TARGET_2D = test_2D_local_interpolation

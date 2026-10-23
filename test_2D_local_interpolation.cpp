@@ -130,8 +130,8 @@ int main(int argc, char** argv)
     const int qysize = (gridYsize-1)*(numpoints-1)+1;
 
     // create query points
-    double qx[qxsize];
-    double qy[qysize];
+    double qx[static_cast<size_t>(qxsize)];
+    double qy[static_cast<size_t>(qysize)];
     qx[0] = gridX[0];
     qy[0] = gridY[0];
     int idx = 1;

@@ -35,6 +35,9 @@ T compute_weighted_harmonic_mean(const T& delta_im, const T& delta_i,
       bool c5 = (left>=2*hdp_im);       // c5: .. preservation when "rule" in STEP 3 is applied. // 3 - 2 * h_i-1/h_i >=0
       displayText("Conditions: %d %d %d %d %d\n", c1, c2, c3, c4, c5);
    )
+   const bool same_sign = (delta_im > T(0) && delta_i > T(0)) 
+                       || (delta_im < T(0) && delta_i < T(0));
+   if (!same_sign)             return T(0);      // checking delta_im*delta_i <=0 might fail at underflow
    if (delta_im*delta_i <= 0)  return (T) 0.0;   // condition c1
    if (left < hdm_im+hdp_im)   return (T) 0.0;   // condition c2
    if (left < hdm_i +hdp_i)    return (T) 0.0;   // condition c3
@@ -122,7 +125,7 @@ T eval_weighted_hermite_basis_functions_DERIV2(const T& u, const T* interp_param
  */
 template <typename T>
 T calc_P(const T& p, const T& h_im, const T& h_i, const T& sign_im, const T& sign_i, const T& gamma){
-   if ( p == 0.0 ){
+   if (p == 0.0){
       LSPI_VERBOSE_1D( displayText("Conditions for P: NONE, already zero\n"); )
       return (T) 0.0;
    }else{

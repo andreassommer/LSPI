@@ -14,6 +14,10 @@ in review
 
 ## Usage
 
+### Important notes:
+
+* The provided grids must contain at least 6 elements (otherwise buffer overflows may happen, not safeguarded)
+
 ### Compilation
 
 Compile using make:

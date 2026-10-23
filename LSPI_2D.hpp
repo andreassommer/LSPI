@@ -152,7 +152,7 @@ void setup_g_zg_zgh(Direction dir, const T* grid, const T* data, int gridsize, i
             g[m_idx - i] = grid[0] - x_diff * i;     // extrapolate missing data
         }
         int missing = (m_idx == 0) ? 0 : m_idx - 1;
-        copy_entries_2D(dir, data, 0, 5, idxFixed, leadim, z_g, z_gh, missing);
+        copy_entries_2D(dir, data, 0, 5-missing, idxFixed, leadim, z_g, z_gh, missing);
         for (int k = 0; k < 2 && missing > 0; ++k) {
             T diff = elem(k, 1) - elem(k, 0);
             for (int i = 0; i < missing; ++i) {

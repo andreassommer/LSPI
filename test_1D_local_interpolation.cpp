@@ -23,7 +23,7 @@ using namespace LSPI;
 /**
  * This function runs the interpolation and times it
  */
-double runtest(int nrep, int derivatives, const double* pvecIN, int plen, const double* grid, int gridlen, const double* data, double alpha, double* values, int randseed) {
+double runtest(int nrep, int derivatives, const double* pvecIN, int plen, const double* grid, int gridlen, const double* data, double alpha, double* values, unsigned int randseed) {
    std::cout<<"Doing "<<nrep<<" repetitions with derivatives = "<<derivatives<<" -- ";
    int ticID;                                  // carrier for time measurement
    double duration_random = 0;                 // runtime for random number generations
@@ -62,8 +62,8 @@ int main(int argc, char** argv)
    // Defaults
    int numpoints = 10;
    int nrep = 1000000;
-   int randseed = 0;
    int output = 0;
+   unsigned int randseed = 0;
    
    // Display short help upon "--help"
    if (argc >= 2 && std::string(argv[1]) == "--help") {
@@ -87,7 +87,7 @@ int main(int argc, char** argv)
    if (argc >= 2 && argv[1] != nullptr) numpoints = std::stoi(argv[1]);
    if (argc >= 3 && argv[2] != nullptr)      nrep = std::stol(argv[2]);
    if (argc >= 4 && argv[3] != nullptr)    output = std::stol(argv[3]);
-   if (argc >= 5 && argv[4] != nullptr)  randseed = std::stol(argv[4]);
+   if (argc >= 5 && argv[4] != nullptr)  randseed = std::stoul(argv[4]);  // ignore overflow
 
    // Display config
    std::cout << "numpoints = " << numpoints << std::endl;
@@ -103,7 +103,7 @@ int main(int argc, char** argv)
 
    // Create evaluation points
    const int plen = (gridlen-1)*(numpoints-1)+1;
-   double pvec[plen];  // target vector of points to interpolate at
+   double pvec[static_cast<size_t>(plen)];  // target vector of points to interpolate at
    pvec[0] = grid[0];  // initial point is first grid point
    int idx = 1;      
    for(int j=0;j<(gridlen-1);j++){
@@ -117,9 +117,9 @@ int main(int argc, char** argv)
    delete[] lin01;
 
    // initialize output variables
-   double valuesD0[plen], durationD0;
-   double valuesD1[plen], durationD1;
-   double valuesD2[plen], durationD2;
+   double valuesD0[static_cast<size_t>(plen)], durationD0;
+   double valuesD1[static_cast<size_t>(plen)], durationD1;
+   double valuesD2[static_cast<size_t>(plen)], durationD2;
 
    durationD0 = runtest(nrep, 0, pvec, plen, grid, gridlen, data, 0.3, valuesD0, randseed);
    durationD1 = runtest(nrep, 1, pvec, plen, grid, gridlen, data, 1.0, valuesD1, randseed);
